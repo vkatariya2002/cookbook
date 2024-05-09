@@ -1,6 +1,7 @@
 import React,{useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
+import RecipeList from './RecipeList';
 
 const Home = () => {
     const navigate=useNavigate();
@@ -15,6 +16,7 @@ const Home = () => {
   return (
     <div>
         Home
+        <RecipeList/>
       {/* <button type='button' onClick={logout}>Logout</button> */}
     </div>
   )

@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 
 
 const QuillEditor = () => {

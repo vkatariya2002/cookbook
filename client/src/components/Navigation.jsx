@@ -15,7 +15,7 @@ const Navigation = () => {
   //     navigate('/');
   // }
   return (
-    <nav>
+    <nav class="navbar">
       <ul>
         {visibility?<></>:<li><Link to="/home">Home</Link></li>}
         {visibility?<li><Link to="/">Login</Link></li>:<li><Link to='/logout'>Logout</Link></li>}

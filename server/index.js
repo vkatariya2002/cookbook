@@ -21,8 +21,18 @@ const userSchema = new mongoose.Schema({
   
 const users = mongoose.model('users', userSchema);
 
+const recipeSchema=new mongoose.Schema({
+    name: String,
+    instructions: String,
+    timage: String,
+    postedBy: String,
+    ingredients: String
+},{timestamps: true})
+
+const recipes=mongoose.model('recipes',recipeSchema);
+
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.get('/',(req,res)=>{
     res.send('Hi');
@@ -57,9 +67,35 @@ app.post('/login',(req,res)=>{
 
 })
 
-app.post('addRecipe',(req,res)=>{
-    
+app.post('/addRecipe',(req,res)=>{
+    recipes.create({
+        name: req.body.name,
+        instructions: req.body.instructions,
+        timage: req.body.thumbnailImage,
+        postedBy: req.body.postedBy,
+        ingredients: req.body.ingredients
+    }).then(data=>{
+        res.json({status: 'success'});
+    }).catch(error=>{
+        console.log(error);
+        res.json({status: 'failure'});
+    })
 })
+
+
+//const Recipe = require('/Recipe');
+
+app.get('/recipeList',async(req,res)=>{
+    try{
+        const recipeList = await recipes.find({});
+        res.json({recipes:recipeList});
+    }
+    catch(err){
+        console.error('error fetching recipes',err);
+        res.status(500).json({error:'internal server error'});
+    }
+});
+
 
 app.listen(80,error=>{
     if(error) console.log(error);
