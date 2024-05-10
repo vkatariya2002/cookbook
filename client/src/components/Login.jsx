@@ -14,9 +14,11 @@ const Login = ()=>{
         let password = document.getElementById('passwordInput').value;
         Axios.post('http://localhost/login',{email:email,password:password})
         .then(Response=>{
+            console.log(Response)
             console.log('login successful:',Response.data.status);
             localStorage.setItem('cookbookloggedIn', true);
             localStorage.setItem('cookbookUser', Response.data.email);
+            localStorage.setItem('cookbookUserRecipes', Response.data.selfRecipes);
             if(Response.data.status==='success') navigate('/home');
         })
         .catch(error=>{
