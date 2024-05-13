@@ -63,7 +63,7 @@ app.post('/login', (req, res) => {
     }).then(data => {
         console.log(data);
         if (data === null) res.json({ status: 'failure' });
-        else res.json({ email: req.body.email,selfRecipes:data.selfRecipes, status: 'success' });
+        else res.json({ email: req.body.email,selfRecipes:data.selfRecipes,favRecipes:data.favoriteRecipes, status: 'success' });
     })
         .catch(error => {
             console.log(error);
@@ -109,6 +109,59 @@ app.get('/recipeList', async (req, res) => {
     catch (err) {
         console.error('error fetching recipes', err);
         res.status(500).json({ error: 'internal server error' });
+    }
+});
+
+// app.post('/addtf',(req,res)=>{
+//     console.log(req.body);
+//     if(req.body.action==='add'){
+//         users.findOneAndUpdate({ email: req.body.email },
+//             { $push: { favoriteRecipes: req.body.id } })
+//             .then(data => {
+//                 res.json({ status: 'success' });
+//             }).catch(error => {
+//                 console.log(error);
+//                 res.json({ status: 'failure' });
+//             })
+//     }
+//     else if(req.body.action==='subtract'){
+//         users.findOneAndUpdate({ email: req.body.email },
+//             { $pop: { favoriteRecipes: req.body.id } })
+//             .then(data => {
+//                 res.json({ status: 'success' });
+//             }).catch(error => {
+//                 console.log(error);
+//                 res.json({ status: 'failure' });
+//             })
+//     }
+// })
+
+app.post('/addtf', (req, res) => {
+    console.log(req.body);
+    if (req.body.action === 'add') {
+        users.findOneAndUpdate(
+            { email: req.body.email },
+            { $push: { favoriteRecipes: req.body.id } }
+        )
+        .then(data => {
+            res.json({ status: 'success' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.json({ status: 'failure' });
+        });
+    } else if (req.body.action === 'subtract') {
+        users.findOneAndUpdate(
+            { email: req.body.email },
+            { $pull: { favoriteRecipes: req.body.id } }
+        )
+        .then(data => {
+            res.json({ status: 'success' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.json({ status: 'failure' });
+        });
     }
 });
 

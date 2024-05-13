@@ -19,6 +19,7 @@ const Login = ()=>{
             localStorage.setItem('cookbookloggedIn', true);
             localStorage.setItem('cookbookUser', Response.data.email);
             localStorage.setItem('cookbookUserRecipes', Response.data.selfRecipes);
+            localStorage.setItem('cookbookUserFavRecipes', Response.data.favRecipes);
             if(Response.data.status==='success') navigate('/home');
         })
         .catch(error=>{

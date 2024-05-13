@@ -95,23 +95,46 @@ import { useNavigate } from 'react-router-dom';
 
 const RecipeList = () => {
     const [recipesSelf, setRecipesSelf] = useState([]);
-    const [recipes, setRecipes] = useState([]); // Initialize with an empty array
+    // const [recipesSelfId, setRecipesSelfId] = useState([]);
+    const [recipesFavourite, setRecipesFavourite] = useState([]);
+    const [recipesFavouriteId, setRecipesFavouriteId] = useState([]);
+    const [recipes, setRecipes] = useState([]);
+    const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+    const [temp, setTemp] = useState(0)
+    const [temp0, setTemp0] = useState(0)
     const navigate = useNavigate();
 
     useEffect(() => {
-        let selfRecipes = localStorage.getItem('cookbookUserRecipes').split(',');
-        let temp = [];
-        // console.log(selfRecipes);
-        for (let i = 0; i < selfRecipes.length; i++) {
-            Axios.get('https://forkify-api.herokuapp.com/api/v2/recipes/' + selfRecipes[i])
-                .then(response => {
-                    // console.log(response);
-                    temp.push(response.data.data.recipe);
-                    if (i === selfRecipes.length - 1) setRecipesSelf(temp);
-                })
-                .catch(error => console.error('error fetching recipes', error));
+        if (temp > 0) {
+            let temp2 = [];
+            // console.log(selfRecipes);
+            let recipesSelfId=localStorage.getItem('cookbookUserRecipes').split(',');
+            for (let i = 0; i < recipesSelfId.length; i++) {
+                Axios.get('https://forkify-api.herokuapp.com/api/v2/recipes/' + recipesSelfId[i])
+                    .then(response => {
+                        // console.log(response);
+                        temp2.push(response.data.data.recipe);
+                        if (i === recipesSelfId.length - 1) setRecipesSelf(temp2);
+                    })
+                    .catch(error => console.error('error fetching recipes', error));
+            }
         }
-    }, []);
+    })
+    useEffect(() => {
+        if (temp > 0) {
+            let temp2 = [];
+            // console.log(selfRecipes);
+            for (let i = 0; i < recipesFavouriteId.length; i++) {
+                Axios.get('https://forkify-api.herokuapp.com/api/v2/recipes/' + recipesFavouriteId[i])
+                    .then(response => {
+                        // console.log(response);
+                        temp2.push(response.data.data.recipe);
+                        if (i === recipesFavouriteId.length - 1) setRecipesFavourite(temp2);
+                    })
+                    .catch(error => console.error('error fetching recipes', error));
+            }
+        }
+    }, [temp]);
 
     useEffect(() => {
         Axios.get('https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza')
@@ -123,8 +146,13 @@ const RecipeList = () => {
     }, []);
 
     const showDesc = (id) => {
-        navigate('/recipe/'+id);
+        navigate('/recipe/' + id);
     }
+    useEffect(() => {
+
+        setRecipesFavouriteId(localStorage.getItem('cookbookUserFavRecipes').split(','));
+        setTemp(temp + 1);
+    }, [temp0])
 
     const search = () => {
         let search_query = document.getElementById('search-input').value;
@@ -137,18 +165,83 @@ const RecipeList = () => {
                 console.error('error fetching recipes', error)
             })
     }
-
+    const addToFavourites = (e, id) => {
+        // e.target.style.color='red';
+        console.log(e.target.style.color)
+        console.log(id);
+        if (e.target.style.color == 'red') {
+            console.log('test2');
+            Axios.post('http://localhost/addtf', { 'email': localStorage.getItem('cookbookUser'), 'id': id, 'action': 'subtract' })
+                .then(response => {
+                    console.log(response)
+                    e.target.style.color = 'blue'
+                    let temp3=localStorage.getItem('cookbookUserFavRecipes').split(',');
+                    let index=temp3.indexOf(id);
+                    temp3.splice(index,1);
+                    localStorage.removeItem('cookbookUserFavRecipes');
+                    localStorage.setItem('cookbookUserFavRecipes',temp3);
+                    setTemp0(temp0+1);
+                })
+                .catch(error => console.log(error));
+            }
+            else if (e.target.style.color == '' || e.target.style.color == 'blue') {
+                console.log('test1');
+                Axios.post('http://localhost/addtf', { 'email': localStorage.getItem('cookbookUser'), 'id': id, 'action': 'add' })
+                .then(response => {
+                    console.log(response)
+                    e.target.style.color = 'red';
+                    let temp3=localStorage.getItem('cookbookUserFavRecipes').split(',');
+                    temp3.push(id);
+                    localStorage.removeItem('cookbookUserFavRecipes');
+                    localStorage.setItem('cookbookUserFavRecipes',temp3);
+                    setTemp0(temp0+1);
+                })
+                .catch(error => console.log(error));
+        }
+    }
+    // const addToFavourites = (id) => {
+    //     if (!favoriteRecipes.includes(id)) {
+    //         // If recipe is not in favorites, add it
+    //         Axios.post('http://localhost/addtf', { 'email': localStorage.getItem('cookbookUser'), 'id': id, 'action': 'add' })
+    //             .then(response => {
+    //                 console.log(response);
+    //                 setFavoriteRecipes([...favoriteRecipes, id]); // Update favoriteRecipes state
+    //             })
+    //             .catch(error => console.log(error));
+    //     } else {
+    //         // If recipe is already in favorites, remove it
+    //         Axios.post('http://localhost/addtf', { 'email': localStorage.getItem('cookbookUser'), 'id': id, 'action': 'subtract' })
+    //             .then(response => {
+    //                 console.log(response);
+    //                 setFavoriteRecipes(favoriteRecipes.filter(recipeId => recipeId !== id)); // Update favoriteRecipes state
+    //             })
+    //             .catch(error => console.log(error));
+    //     }
+    // }
     return (
         <div>
             <input type="text" name="" id="search-input" />
             <button type="button" onClick={search}>Search</button>
             <h2>Self Recipes</h2>
-            <ul className='recipe-list'>
+            {recipesSelf.length > 0 ? <ul className='recipe-list'>
                 {recipesSelf.map(recipe => (
-                    <li key={recipe._id}>
+                    <li key={recipe.id}>
                         <div className='recipe-card-cont'>
                             <img src={recipe.image_url} alt="" />
-                            <h2>{recipe.title.toUpperCase()}</h2>
+                            <h2>{recipe.title}</h2>
+                            <label>{recipe.publisher}</label>
+                            <button type="button" onClick={() => { showDesc(recipe.id) }}>View More</button>
+                        </div>
+                    </li>
+                ))}
+            </ul> : <></>}
+            <h2>Favourite Recipes</h2>
+            <ul className='recipe-list'>
+                {recipesFavourite.map(recipe => (
+                    <li key={recipe.id}>
+                        <div className='recipe-card-cont'>
+                            <img src={recipe.image_url} alt="" />
+                            <h2>{recipe.title}</h2>
                             <label>{recipe.publisher}</label>
                             <button type="button" onClick={() => { showDesc(recipe.id) }}>View More</button>
                         </div>
@@ -158,11 +251,14 @@ const RecipeList = () => {
             <h2>Recipes</h2>
             <ul className='recipe-list'>
                 {recipes.map(recipe => (
-                    <li key={recipe._id}>
+                    <li key={recipe.id}>
                         <div className='recipe-card-cont'>
                             <img src={recipe.image_url} alt="" />
-                            <h2>{recipe.title.toUpperCase()}</h2>
+                            <h2>{recipe.title}</h2>
                             <label>{recipe.publisher}</label>
+                            <span class="material-symbols-outlined" onClick={(e) => { addToFavourites(e, recipe.id.toString()) }}>
+                                thumb_up
+                            </span>
                             <button type="button" onClick={() => { showDesc(recipe.id) }}>View More</button>
                         </div>
                     </li>

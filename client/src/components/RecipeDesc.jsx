@@ -20,12 +20,12 @@ const RecipeDesc = () => {
       <h2>{recipeDesc.title}</h2>
       <img src={recipeDesc.image_url} alt="" />
       <ul>
-    {recipeDesc.ingredients.map(element=>{
+    {/* {recipeDesc.ingredients.map(element=>{
         return <li>element.description</li>
-    })}
+    })} */}
     </ul>
-    <label>Cooking Time:&nbsp{recipeDesc.cooking_time}</label>
-    <label>Number of Servings: &nbsp{recipeDesc.servings}</label>
+    <label>Cooking Time: {recipeDesc.cooking_time}</label>
+    <label>Number of Servings: {recipeDesc.servings}</label>
     </div>
   )
 }

@@ -40,9 +40,9 @@ const QuillEditor = () => {
     const uploadImage = async (event) => {
         console.log(event.target.files[0])
         const formData = new FormData();
-        formData.append('key', 'c9d1c1907c518506f05d9c06bb56b294');
+        formData.append('key', '2f5904dc8ec2d2f4192acf8ef4f361f4');
         formData.append('image', event.target.files[0]);
-        Axios.post('https://api.imgbb.com/1/upload',formData)
+        Axios.post("https://api.imgbb.com/1/upload",formData)
             .then(response => {
                 console.log(response);
                 setThumbnail(response.data.data.display_url)
@@ -80,7 +80,7 @@ const QuillEditor = () => {
         let recipeName = document.getElementById('recipeName').value;
 
         console.log(value);
-        Axios.post('https://forkify-api.herokuapp.com/api/v2/recipes?key=a0e67a50-3474-432f-a6e9-5836062995b5', {
+        Axios.post('https://forkify-api.herokuapp.com/api/v2/recipes?key=dcb03609-b995-4590-8477-0784c5ffb1e3', {
             image_url: thumbnail,
             "publisher": localStorage.getItem('cookbookUser'),
             "ingredients": ingredients,
@@ -93,7 +93,13 @@ const QuillEditor = () => {
         })
             .then(response => {
                 Axios.post('http://localhost/addRecipe', { id: response.data.data.recipe.id, email: localStorage.getItem('cookbookUser') })
-                    .then(data => console.log("Recipe: ", data))
+                    .then(data =>{
+                        console.log("Recipe: ", data);
+                        let temp=localStorage.getItem('cookbookUserRecipes').split(',');
+                        temp.push(response.data.data.recipe.id);
+                        localStorage.removeItem('cookbookUserRecipes');
+                        localStorage.setItem('cookbookUserRecipes',temp);
+            })
                     .catch(error => console.log(error));
             })
             .catch(error => console.log(error));
