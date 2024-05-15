@@ -164,7 +164,28 @@ app.post('/addtf', (req, res) => {
         });
     }
 });
+app.get('/getallusers',async (req,res)=>{
+    try{
+        const response=await users.find({},'email selfRecipes');
+        res.json({'data':response});
+    }
+    catch(error){
+        conole.log(error);
+        res.json({'data':'failed'});
+    }
+})
 
+app.get('/getusr/:id',async (req,res)=>{
+    try{
+        const response=await users.findOne({_id:req.params.id}, 'selfRecipes');
+        console.log(response);
+        res.json(response);
+    }
+    catch(error){
+        conole.log(error);
+        res.json({'data':'failed'});
+    }
+})
 
 app.listen(80, error => {
     if (error) console.log(error);

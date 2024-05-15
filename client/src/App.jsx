@@ -9,6 +9,8 @@ import Navigation from './components/Navigation';
 import Logout from './components/Logout';
 import RecipeList from './components/RecipeList';
 import RecipeDesc from './components/RecipeDesc';
+import ListAllUsers from './components/ListAllUsers';
+import UserSelfRecipes from './components/UserSelfRecipes';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,6 +27,8 @@ function App() {
         <Route path="/create" element={<QuillEditor/>} />
         <Route path="/logout" element={<Logout/>} />
         <Route path="/recipe/:id" element={<RecipeDesc/>} />
+        <Route path="/users" element={<ListAllUsers/>} />
+        <Route path="/user/:id" element={<UserSelfRecipes/>} />
       </Routes>
     </BrowserRouter>
   </div>

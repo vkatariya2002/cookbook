@@ -21,6 +21,7 @@ const Navigation = () => {
         {visibility?<li><Link to="/">Login</Link></li>:<li><Link to='/logout'>Logout</Link></li>}
         {visibility?<li><Link to="/register">Register</Link></li>:<></>}
         {visibility?<></>:<li><Link to="/create">Create</Link></li>}
+        {visibility?<></>:<li><Link to="/users">List All Users</Link></li>}
       </ul>
     </nav>
   )
