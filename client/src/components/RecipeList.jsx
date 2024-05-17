@@ -98,17 +98,17 @@ const RecipeList = () => {
     // const [recipesSelfId, setRecipesSelfId] = useState([]);
     const [recipesFavourite, setRecipesFavourite] = useState([]);
     const [recipesFavouriteId, setRecipesFavouriteId] = useState([]);
+    const [recipesSelfId, setRecipesSelfId] = useState([]);
     const [recipes, setRecipes] = useState([]);
-    const [favoriteRecipes, setFavoriteRecipes] = useState([]);
     const [temp, setTemp] = useState(0)
     const [temp0, setTemp0] = useState(0)
+    const [temp_1, setTemp_1] = useState(0)
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (temp > 0) {
+        if (temp_1 > 0) {
             let temp2 = [];
             // console.log(selfRecipes);
-            let recipesSelfId=localStorage.getItem('cookbookUserRecipes').split(',');
             for (let i = 0; i < recipesSelfId.length; i++) {
                 Axios.get('https://forkify-api.herokuapp.com/api/v2/recipes/' + recipesSelfId[i])
                     .then(response => {
@@ -119,7 +119,7 @@ const RecipeList = () => {
                     .catch(error => console.error('error fetching recipes', error));
             }
         }
-    })
+    }, [temp_1])
     useEffect(() => {
         if (temp > 0) {
             let temp2 = [];
@@ -149,9 +149,10 @@ const RecipeList = () => {
         navigate('/recipe/' + id);
     }
     useEffect(() => {
-
+        setRecipesSelfId(localStorage.getItem('cookbookUserRecipes').split(','));
         setRecipesFavouriteId(localStorage.getItem('cookbookUserFavRecipes').split(','));
         setTemp(temp + 1);
+        setTemp_1(temp_1 + 1);
     }, [temp0])
 
     const search = () => {
@@ -175,29 +176,62 @@ const RecipeList = () => {
                 .then(response => {
                     console.log(response)
                     e.target.style.color = 'blue'
-                    let temp3=localStorage.getItem('cookbookUserFavRecipes').split(',');
-                    let index=temp3.indexOf(id);
-                    temp3.splice(index,1);
+                    let temp3 = localStorage.getItem('cookbookUserFavRecipes').split(',');
+                    let index = temp3.indexOf(id);
+                    temp3.splice(index, 1);
                     localStorage.removeItem('cookbookUserFavRecipes');
-                    localStorage.setItem('cookbookUserFavRecipes',temp3);
-                    setTemp0(temp0+1);
-                })
-                .catch(error => console.log(error));
-            }
-            else if (e.target.style.color == '' || e.target.style.color == 'blue') {
-                console.log('test1');
-                Axios.post('http://localhost/addtf', { 'email': localStorage.getItem('cookbookUser'), 'id': id, 'action': 'add' })
-                .then(response => {
-                    console.log(response)
-                    e.target.style.color = 'red';
-                    let temp3=localStorage.getItem('cookbookUserFavRecipes').split(',');
-                    temp3.push(id);
-                    localStorage.removeItem('cookbookUserFavRecipes');
-                    localStorage.setItem('cookbookUserFavRecipes',temp3);
-                    setTemp0(temp0+1);
+                    localStorage.setItem('cookbookUserFavRecipes', temp3);
+                    setTemp0(temp0 + 1);
                 })
                 .catch(error => console.log(error));
         }
+        else if (e.target.style.color == '' || e.target.style.color == 'blue') {
+            console.log('test1');
+            Axios.post('http://localhost/addtf', { 'email': localStorage.getItem('cookbookUser'), 'id': id, 'action': 'add' })
+                .then(response => {
+                    console.log(response)
+                    e.target.style.color = 'red';
+                    let temp3 = localStorage.getItem('cookbookUserFavRecipes').split(',');
+                    temp3.push(id);
+                    localStorage.removeItem('cookbookUserFavRecipes');
+                    localStorage.setItem('cookbookUserFavRecipes', temp3);
+                    setTemp0(temp0 + 1);
+                })
+                .catch(error => console.log(error));
+        }
+    }
+    const deleteRecipeSelf = (id) => {
+        Axios.delete(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}?key=dcb03609-b995-4590-8477-0784c5ffb1e33`)
+            .then(response2 => {
+                console.log(response2);
+                Axios.post('http://localhost/drs', { email: localStorage.getItem('cookbookUser'), id: id })
+                    .then(response => {
+                        console.log(response);
+                        let temp3 = localStorage.getItem('cookbookUserRecipes').split(',');
+                        temp3.pop(id);
+                        localStorage.removeItem('cookbookUserRecipes');
+                        localStorage.setItem('cookbookUserRecipes', temp3);
+                        setTemp0(temp0 + 1);
+                    }).catch(error => {
+                        console.log(error);
+                    })
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+    const deleteRecipeFav = (id) => {
+        Axios.post('http://localhost/drf', { email: localStorage.getItem('cookbookUser'), id: id })
+            .then(response => {
+                console.log(response);
+                let temp3 = localStorage.getItem('cookbookUserFavRecipes').split(',');
+                let index = temp3.indexOf(id);
+                temp3.splice(index, 1);
+                localStorage.removeItem('cookbookUserFavRecipes');
+                localStorage.setItem('cookbookUserFavRecipes', temp3);
+                setTemp0(temp0 + 1);
+            }).catch(error => {
+                console.log(error);
+            })
     }
     // const addToFavourites = (id) => {
     //     if (!favoriteRecipes.includes(id)) {
@@ -220,22 +254,33 @@ const RecipeList = () => {
     // }
     return (
         <div>
-            <input type="text" name="" id="search-input" />
-            <button type="button" onClick={search}>Search</button>
-            <h2>Self Recipes</h2>
+        <br />
+            <div className='search-cont'>
+            <br />
+                <input type="text" name="" id="search-input" />
+                <button type="button" onClick={search}>Search</button>
+            </div>
+            <br />
+            <h2 className='heading'>Self Recipes</h2>
             {recipesSelf.length > 0 ? <ul className='recipe-list'>
                 {recipesSelf.map(recipe => (
                     <li key={recipe.id}>
                         <div className='recipe-card-cont'>
                             <img src={recipe.image_url} alt="" />
-                            <h2>{recipe.title}</h2>
-                            <label>{recipe.publisher}</label>
+                            {/* <h2>{recipe.title}</h2> */}
+                            <br />
+                            <label>{recipe.title}</label>
+                            <div style={{display:"flex", flexDirection:"row", marginRight :"10px", justifyContent:"space-around" }}>
                             <button type="button" onClick={() => { showDesc(recipe.id) }}>View More</button>
+                            
+                            <button type="button" onClick={() => { deleteRecipeSelf(recipe.id) }}>Delete</button>
+                            </div>
                         </div>
                     </li>
                 ))}
             </ul> : <></>}
-            <h2>Favourite Recipes</h2>
+            <br />
+            <h2 className='heading'>Favourite Recipes</h2>
             <ul className='recipe-list'>
                 {recipesFavourite.map(recipe => (
                     <li key={recipe.id}>
@@ -244,11 +289,13 @@ const RecipeList = () => {
                             <h2>{recipe.title}</h2>
                             <label>{recipe.publisher}</label>
                             <button type="button" onClick={() => { showDesc(recipe.id) }}>View More</button>
+                            <button type="button" onClick={() => { deleteRecipeFav(recipe.id) }}>Delete</button>
                         </div>
                     </li>
                 ))}
             </ul>
-            <h2>Recipes</h2>
+            <br />
+            <h2 className='heading'>Recipes</h2>
             <ul className='recipe-list'>
                 {recipes.map(recipe => (
                     <li key={recipe.id}>
@@ -259,7 +306,9 @@ const RecipeList = () => {
                             <span class="material-symbols-outlined" onClick={(e) => { addToFavourites(e, recipe.id.toString()) }}>
                                 thumb_up
                             </span>
-                            <button type="button" onClick={() => { showDesc(recipe.id) }}>View More</button>
+                           
+                                <button type="button" onClick={() => { showDesc(recipe.id) }}>View More</button>
+                            
                         </div>
                     </li>
                 ))}

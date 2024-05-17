@@ -1,13 +1,19 @@
 /* styles.css */
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Niconne&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Protest+Guerrilla&display=swap');
 .navbar {
     background-color: #333; /* Background color */
     overflow: hidden;
-    list-style-type: none; /* Ensure contents don't overflow */
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    width: 100%;
+    /* Ensure contents don't overflow */
 }
 
 .navbar a {
-    float: left; /* Align links horizontally */
     display: block; /* Display links as block elements */
     color: #fff; /* Link text color */
     text-align: center; /* Center-align text */
@@ -16,24 +22,41 @@
 }
 
 .navbar a:hover {
-    background-color: #ddd; /* Background color on hover */
+    border-radius: 30%;
+    background-color: #d2d2d2; /* Background color on hover */
     color: #333; /* Text color on hover */
 }
 .navbar ul{
     display: flex;
     list-style-type:none;
+    margin-right: 25px;
 }
-.recipe-list{
+.navbar span{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+}
+.navbar span img{
+    height: 90%;
+    border-radius: 25px;
+}
+.navbar span h2{
+    color: white;
+    margin: 0 0 0 10px;
+    font-family: "Protest Guerrilla", sans-serif;
+}
+/* .recipe-list{
     display: flex;
     flex-wrap: wrap;
     list-style-type: none;
 }
 .recipe-list li{
     margin: 10px;
-    width: 29vw;
+    width: 27vw;
     background-color: #333;
-    padding: 10px;
-    border-radius: 10px;
+    padding:10px;
+    border-radius: 13px;
 }
 .recipe-list li img{
     width: 90%;
@@ -46,6 +69,7 @@
 .recipe-desc-cont{
     display: flex;
     flex-direction: column;
+    
     justify-content: space-between;
 }
 .recipe-desc-cont button{
@@ -64,4 +88,186 @@
   'wght' 400,
   'GRAD' 0,
   'opsz' 24
+} */
+
+
+
+.recipe-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+    justify-content: center; /* Center the list items */
+}
+
+.recipe-list li {
+    margin: 10px;
+    width: 27vw;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 13px;
+    color: #fff; /* Ensure text color contrasts with background */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content in li */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for better visual appeal */
+}
+
+.recipe-list li img {
+    width: 90%;
+    height: 30vh;
+    object-fit: cover; /* Ensure the image covers the container properly */
+    margin: 0 auto; /* Center the image */
+    border-radius: 10px; /* Slight rounding of image corners */
+}
+.recipe-list button{
+    /* background-color: #92d0ff;
+    border-radius: 5px;
+    cursor: pointer; */
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.re bu
+
+.recipe-card-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content within the card */
+    width: 100%; /* Ensure it takes full width of the li */
+}
+
+.recipe-desc-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%; /* Ensure description container takes full width */
+}
+
+
+.recipe-desc-cont button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #555;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center; /* Center the button within the description container */
+}
+
+.recipe-desc-cont button:hover {
+    background-color: #777;
+}
+
+.recipe-card-cont h2 {
+    margin-bottom: 3px;
+    text-align: center; /* Center align the text */
+}
+
+.material-symbols-outlined {
+    width: fit-content;
+    color: blue;
+    cursor: pointer;
+    font-variation-settings:
+      'FILL' 2,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+}
+
+
+
+#root{
+    margin: 0px;
+    
+    background-color: #333;
+    padding: 0px;
+    border-radius: 10px;
+    
+    background-color: rgb(245, 246, 241);
+}
+
+/* ListAllUsers.css */
+
+.user-list-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.user-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.user-table th, .user-table td {
+    padding: 12px 15px;
+    border: 1px solid #625f5f;
+}
+
+.user-table th {
+    background-color: #515151;
+    color: white
+
+}
+
+.user-table tr:nth-of-type(even) {
+    background-color: #959999;
+}
+
+.user-table tr:hover {
+    background-color: #787878;
+}
+
+.user-table a {
+    color: #0e1215;
+    text-decoration: none;
+}
+
+.user-table a:hover {
+    text-decoration: underline;
+}
+.search-cont{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.search-cont input{
+    width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid black;
+}
+.search-cont button{
+    padding: 10px;
+    margin-left: 20px;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.search-cont button:hover{
+    background-color: #6c6c6c;
+    color: white;
+    cursor: pointer;
+}
+
+.heading{
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 30px;
 }

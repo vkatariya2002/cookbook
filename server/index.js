@@ -186,7 +186,42 @@ app.get('/getusr/:id',async (req,res)=>{
         res.json({'data':'failed'});
     }
 })
-
+app.post('/drs',(req,res)=>{
+    try{
+        users.findOneAndUpdate(
+            { email: req.body.email },
+            { $pull: { selfRecipes: req.body.id } }
+        )
+        .then(data => {
+            res.json({ status: 'success' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.json({ status: 'failure' });
+        });
+    }catch(error){
+        conole.log(error);
+        res.json({'data':'failed'});
+    }
+})
+app.post('/drf',(req,res)=>{
+    try{
+        users.findOneAndUpdate(
+            { email: req.body.email },
+            { $pull: { favoriteRecipes: req.body.id } }
+        )
+        .then(data => {
+            res.json({ status: 'success' });
+        })
+        .catch(error => {
+            console.log(error);
+            res.json({ status: 'failure' });
+        });
+    }catch(error){
+        conole.log(error);
+        res.json({'data':'failed'});
+    }
+})
 app.listen(80, error => {
     if (error) console.log(error);
     else console.log('Server Started Successfully.');

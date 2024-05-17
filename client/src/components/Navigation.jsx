@@ -16,6 +16,12 @@ const Navigation = () => {
   // }
   return (
     <nav class="navbar">
+    <span>
+      <img src="cookbook logo.avif" alt="" />
+    <Link to='/home'>
+      <h2>CookBook</h2>
+    </Link>
+    </span>
       <ul>
         {visibility?<></>:<li><Link to="/home">Home</Link></li>}
         {visibility?<li><Link to="/">Login</Link></li>:<li><Link to='/logout'>Logout</Link></li>}

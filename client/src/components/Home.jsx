@@ -15,7 +15,6 @@ const Home = () => {
     // }
   return (
     <div>
-        Home
         <RecipeList/>
       {/* <button type='button' onClick={logout}>Logout</button> */}
     </div>

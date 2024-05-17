@@ -1,0 +1,91 @@
+.recipe-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.recipe-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.recipe-image {
+    margin-right: 50px;
+    border-radius: 10px;
+    width: 300px;
+    height: auto;
+}
+
+.recipe-details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    
+}
+
+.recipe-details label {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+   
+    
+}
+
+.recipe-url {
+    background-color: #28a745;
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+    .recipe-url a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .recipe-ingredients {
+        margin: 50px 0;
+    }
+    
+    .recipe-ingredients table th{
+        padding: 12px 15px;
+        background-color: #515151;
+        color: white;
+    }
+
+    .recipe-ingredients table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .recipe-ingredients th, .recipe-ingredients td {
+        border: 2px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+    .recipe-ingredients table tr:nth-of-type(even) {
+        background-color: #959999;
+    }
+    
+    .recipe-ingredients th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+    
+    .recipe-footer {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #555;
+        margin-top: 20px;
+    }
+    

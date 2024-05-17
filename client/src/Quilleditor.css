@@ -1,0 +1,89 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Container styling */
+.quill-editor-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Input fields styling */
+.quill-editor-container input[type="text"],
+.quill-editor-container input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.quill-editor-container input[type="text"]:focus,
+.quill-editor-container input[type="file"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* ReactQuill editor styling */
+.ql-container {
+    height: 200px;
+    margin-bottom: 15px;
+}
+
+.btn-cont{
+    display: flex;
+    justify-content: center;
+}
+/* Buttons styling */
+.quill-editor-container button{
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+
+}
+.ingredients-input button{
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+   
+}
+
+.quill-editor-container button:hover {
+    background-color: #2980b9;
+}
+
+/* Additional styling */
+.quill-editor-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.quill-editor-container .ingredients-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
